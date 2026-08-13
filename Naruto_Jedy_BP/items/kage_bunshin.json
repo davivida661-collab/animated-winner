@@ -1,0 +1,24 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "naruto:kage_bunshin",
+      "menu_category": {
+        "category": "equipment",
+        "group": "itemGroup.name.miscellaneous"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": { "default": "naruto_kage_bunshin" }
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": true,
+      "minecraft:cooldown": {
+        "category": "naruto.kage_bunshin",
+        "duration": 10.0
+      },
+      "minecraft:custom_components": ["naruto:kage_bunshin"]
+    }
+  }
+}

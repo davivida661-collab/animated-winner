@@ -1,7 +1,7 @@
 // ============================================================
 //  Naruto Jedy Addon — Script API
-//  Jutsus, armas arremessáveis, NPCs (loja + contratação),
-//  sistema de nível e chakra, kit inicial aleatório.
+//  Jutsus, armas arremessáveis, habilidades, NPCs (loja +
+//  contratação), sistema de nível e chakra, kit inicial.
 //  Requer Minecraft Bedrock 1.26.33+ (@minecraft/server 2.x)
 // ============================================================
 import {
@@ -71,6 +71,15 @@ function spendChakra(player, amount) {
   return true;
 }
 
+/** Gate de nível para habilidades mais fortes. */
+function requireLevel(player, level) {
+  if (getLevel(player) < level) {
+    player.sendMessage(`§cEste jutsu requer nível ${level}!`);
+    return false;
+  }
+  return true;
+}
+
 // XP concedido ao matar cada criatura (padrão: 5)
 const XP_VALUES = {
   "minecraft:zombie": 8,
@@ -101,6 +110,7 @@ const XP_VALUES = {
   "minecraft:piglin_brute": 25,
   "minecraft:warden": 80,
   "naruto:rogue_ninja": 30,
+  "naruto:shadow_clone": 0,
 };
 
 // ------------------------------------------------------------
@@ -227,6 +237,26 @@ const throwShuriken = {
   },
 };
 
+const throwExplosiveKunai = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!spendChakra(source, 8)) return;
+    shootProjectile(source, "naruto:explosive_kunai_projectile", 1.8);
+    consumeItem(source);
+    addXp(source, 1);
+  },
+};
+
+const throwFumaShuriken = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!spendChakra(source, 12)) return;
+    shootProjectile(source, "naruto:fuma_shuriken_projectile", 2.4);
+    consumeItem(source);
+    addXp(source, 1);
+  },
+};
+
 const rasengan = {
   onUse(eventData) {
     const { source } = eventData;
@@ -279,6 +309,139 @@ const chidori = {
       4
     );
     addXp(source, 2);
+  },
+};
+
+const katon = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!spendChakra(source, 25)) return;
+    const dimension = source.dimension;
+    const loc = source.location;
+    const targets = dimension
+      .getEntities({ location: loc, maxDistance: 5 })
+      .filter((entity) => entity.id !== source.id);
+    for (const target of targets) {
+      target.applyDamage(8, { cause: EntityDamageCause.fire });
+      target.setOnFire(4, false);
+    }
+    spawnBurst(
+      dimension,
+      { x: loc.x, y: loc.y + 0.6, z: loc.z },
+      "minecraft:basic_flame_particle",
+      40,
+      4
+    );
+    addXp(source, 2);
+  },
+};
+
+const rasenshuriken = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!requireLevel(source, 5)) return;
+    if (!spendChakra(source, 50)) return;
+    const dimension = source.dimension;
+    const loc = source.location;
+    dimension.createExplosion(
+      { x: loc.x, y: loc.y + 0.4, z: loc.z },
+      3.5,
+      { breaksBlocks: false, causesFire: false }
+    );
+    const targets = dimension
+      .getEntities({ location: loc, maxDistance: 8 })
+      .filter((entity) => entity.id !== source.id);
+    for (const target of targets) {
+      target.applyDamage(16, { cause: EntityDamageCause.explosion });
+    }
+    spawnBurst(
+      dimension,
+      { x: loc.x, y: loc.y + 0.6, z: loc.z },
+      "minecraft:basic_flame_particle",
+      45,
+      5
+    );
+    addXp(source, 5);
+  },
+};
+
+const kageBunshin = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!requireLevel(source, 3)) return;
+    if (!spendChakra(source, 45)) return;
+    const loc = source.location;
+    for (let i = 0; i < 2; i++) {
+      const offset = {
+        x: loc.x + Math.cos(i * Math.PI) * 1.2,
+        y: loc.y + 0.2,
+        z: loc.z + Math.sin(i * Math.PI) * 1.2,
+      };
+      const clone = source.dimension.spawnEntity("naruto:shadow_clone", offset);
+      clone.nameTag = "§bClone";
+      const tameable = clone.getComponent("minecraft:tameable");
+      if (tameable) tameable.tame(source);
+      system.runTimeout(() => {
+        if (clone.isValid()) clone.remove();
+      }, 600); // 30 segundos
+    }
+    spawnBurst(source.dimension, { x: loc.x, y: loc.y + 0.6, z: loc.z }, "minecraft:basic_smoke_particle", 20, 2);
+    source.sendMessage("§b💨 Clone das Sombras! 2 clones lutam ao seu lado por 30s.");
+    addXp(source, 5);
+  },
+};
+
+const sharingan = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!requireLevel(source, 2)) return;
+    if (!spendChakra(source, 20)) return;
+    source.addEffect("night_vision", 1200, { showParticles: false });
+    source.addEffect("speed", 400, { amplifier: 1, showParticles: false });
+    source.addEffect("jump_boost", 400, { amplifier: 0, showParticles: false });
+    source.sendMessage("§c👁 Sharingan ativado! Visão noturna e reflexos aprimorados.");
+    addXp(source, 2);
+  },
+};
+
+const byakugan = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!requireLevel(source, 4)) return;
+    if (!spendChakra(source, 25)) return;
+    const dimension = source.dimension;
+    const loc = source.location;
+    const targets = dimension
+      .getEntities({ location: loc, maxDistance: 30 })
+      .filter(
+        (entity) =>
+          entity.id !== source.id &&
+          entity.typeId !== "minecraft:item" &&
+          entity.typeId !== "minecraft:xp_orb"
+      );
+    for (const target of targets) {
+      target.addEffect("glowing", 400, { showParticles: false });
+    }
+    source.addEffect("night_vision", 1200, { showParticles: false });
+    source.sendMessage("§f👁 Byakugan ativado! Você enxerga o chakra de todos ao redor.");
+    addXp(source, 2);
+  },
+};
+
+const chakraPill = {
+  onUse(eventData) {
+    const { source } = eventData;
+    const max = maxChakra(getLevel(source));
+    const current = getChakra(source);
+    if (current >= max) {
+      source.sendMessage("§b💊 Seu chakra já está cheio!");
+      return;
+    }
+    const restored = Math.min(40, max - current);
+    source.setDynamicProperty(CHAKRA_KEY, current + restored);
+    source.playSound("random.orb");
+    source.sendMessage(`§b💊 +${restored} chakra! (${current + restored}/${max})`);
+    consumeItem(source);
   },
 };
 
@@ -343,7 +506,8 @@ function openSenseiMenu(player, sensei) {
     } else {
       player.sendMessage(
         "§e[Sensei]§r Derrote inimigos e use jutsus para ganhar XP. " +
-          "Ao subir de nível seu chakra máximo aumenta e seus jutsus ficam mais fortes!\n" +
+          "Ao subir de nível seu chakra máximo aumenta, jutsus ficam mais fortes " +
+          "e habilidades novas são desbloqueadas (Sharingan: nível 2, Clone: 3, Byakugan: 4, Rasenshuriken: 5).\n" +
           "§7Custos de chakra: Kunai §b4§7 · Shuriken §b6§7 · Rasengan §b30§7 · Chidori §b40§7."
       );
     }
@@ -384,15 +548,29 @@ function hireNinja(player, sensei) {
 //  NPC: Mercador Ninja (loja de compra e venda)
 // ------------------------------------------------------------
 
-const BUY_ITEMS = [
+const SHOP_WEAPONS = [
   { name: "§fKunai §7×8", item: "naruto:kunai", count: 8, price: 2 },
   { name: "§fShuriken §7×8", item: "naruto:shuriken", count: 8, price: 2 },
-  { name: "§fRamen §7×4", item: "naruto:ramen", count: 4, price: 1 },
-  { name: "§fPergaminho de Treino", item: "naruto:training_scroll", count: 1, price: 5 },
+  { name: "§fKunai Explosiva §7×4", item: "naruto:explosive_kunai", count: 4, price: 4 },
+  { name: "§fFuma Shuriken §7×4", item: "naruto:fuma_shuriken", count: 4, price: 5 },
+  { name: "§fEspada Kusanagi", item: "naruto:kusanagi", count: 1, price: 15 },
+];
+
+const SHOP_JUTSUS = [
+  { name: "§fKaton: Bola de Fogo", item: "naruto:katon", count: 1, price: 6 },
   { name: "§fRasengan", item: "naruto:rasengan", count: 1, price: 8 },
   { name: "§fChidori", item: "naruto:chidori", count: 1, price: 10 },
+  { name: "§fSharingan", item: "naruto:sharingan", count: 1, price: 10 },
+  { name: "§fClone das Sombras", item: "naruto:kage_bunshin", count: 1, price: 12 },
+  { name: "§fByakugan", item: "naruto:byakugan", count: 1, price: 14 },
+  { name: "§fRasenshuriken", item: "naruto:rasenshuriken", count: 1, price: 20 },
+];
+
+const SHOP_ITEMS = [
+  { name: "§fRamen §7×4", item: "naruto:ramen", count: 4, price: 1 },
+  { name: "§fPílula de Chakra", item: "naruto:chakra_pill", count: 1, price: 3 },
+  { name: "§fPergaminho de Treino", item: "naruto:training_scroll", count: 1, price: 5 },
   { name: "§fTesteira de Konoha", item: "naruto:konoha_headband", count: 1, price: 12 },
-  { name: "§fEspada Kusanagi", item: "naruto:kusanagi", count: 1, price: 15 },
   { name: "§fManto da Akatsuki", item: "naruto:akatsuki_cloak", count: 1, price: 20 },
 ];
 
@@ -410,13 +588,17 @@ function openShopMenu(player) {
       "§7Bem-vindo à loja! Aceitamos §eEsmeraldas§7.\n" +
         `§fVocê tem: §e${countItem(player, "minecraft:emerald")}§f esmeraldas`
     )
-    .button("§b🛒 Comprar")
+    .button("§b🗡️ Armas")
+    .button("§c🔥 Jutsus e Habilidades")
+    .button("§6🧪 Itens e Consumíveis")
     .button("§d💰 Vender")
     .button("§eℹ️ Sobre a loja");
   form.show(player).then((response) => {
     if (response.canceled) return;
-    if (response.selection === 0) showBuyMenu(player);
-    else if (response.selection === 1) showSellMenu(player);
+    if (response.selection === 0) showCategoryMenu(player, SHOP_WEAPONS, "Armas");
+    else if (response.selection === 1) showCategoryMenu(player, SHOP_JUTSUS, "Jutsus e Habilidades");
+    else if (response.selection === 2) showCategoryMenu(player, SHOP_ITEMS, "Itens e Consumíveis");
+    else if (response.selection === 3) showSellMenu(player);
     else
       player.sendMessage(
         "§7[Loja]§r Compre e venda itens ninja usando esmeraldas. " +
@@ -425,21 +607,21 @@ function openShopMenu(player) {
   });
 }
 
-function showBuyMenu(player) {
+function showCategoryMenu(player, entries, label) {
   const form = new ActionFormData()
-    .title("§b🛒 Comprar")
+    .title(`§b🛒 ${label}`)
     .body(`§7Você tem §e${countItem(player, "minecraft:emerald")}§7 esmeraldas.`);
-  for (const entry of BUY_ITEMS) {
+  for (const entry of entries) {
     form.button(`${entry.name}\n§7§o${entry.price} esmeraldas`);
   }
   form.button("§c← Voltar");
   form.show(player).then((response) => {
     if (response.canceled) return;
-    if (response.selection === BUY_ITEMS.length) {
+    if (response.selection === entries.length) {
       openShopMenu(player);
       return;
     }
-    buyItem(player, BUY_ITEMS[response.selection]);
+    buyItem(player, entries[response.selection]);
   });
 }
 
@@ -517,6 +699,7 @@ world.afterEvents.playerSpawn.subscribe((event) => {
     new ItemStack("naruto:kunai", 5 + Math.floor(Math.random() * 6)),
     new ItemStack("naruto:shuriken", 5 + Math.floor(Math.random() * 6)),
     new ItemStack("naruto:ramen", 1 + Math.floor(Math.random() * 2)),
+    new ItemStack("naruto:chakra_pill", 1),
   ];
   const amount = 1 + Math.floor(Math.random() * 2); // 1–2 itens aleatórios
   options.sort(() => Math.random() - 0.5);
@@ -546,8 +729,16 @@ world.beforeEvents.worldInitialize.subscribe((initEvent) => {
   const registry = initEvent.itemComponentRegistry;
   registry.registerCustomComponent("naruto:throw_kunai", throwKunai);
   registry.registerCustomComponent("naruto:throw_shuriken", throwShuriken);
+  registry.registerCustomComponent("naruto:throw_explosive_kunai", throwExplosiveKunai);
+  registry.registerCustomComponent("naruto:throw_fuma_shuriken", throwFumaShuriken);
   registry.registerCustomComponent("naruto:rasengan", rasengan);
   registry.registerCustomComponent("naruto:chidori", chidori);
+  registry.registerCustomComponent("naruto:katon", katon);
+  registry.registerCustomComponent("naruto:rasenshuriken", rasenshuriken);
+  registry.registerCustomComponent("naruto:kage_bunshin", kageBunshin);
+  registry.registerCustomComponent("naruto:sharingan", sharingan);
+  registry.registerCustomComponent("naruto:byakugan", byakugan);
+  registry.registerCustomComponent("naruto:chakra_pill", chakraPill);
   registry.registerCustomComponent("naruto:training_scroll", trainingScroll);
 });
 

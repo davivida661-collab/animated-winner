@@ -498,6 +498,166 @@ function drawShopkeeper() {
   });
 }
 
+function drawChakraPill() {
+  const c = new Canvas(16, 16, true);
+  const red = C(0xd3, 0x33, 0x33);
+  const redLight = C(0xf0, 0x8a, 0x8a);
+  c.circle(4, 8, 3.6, red);
+  c.circle(12, 8, 3.6, red);
+  c.rect(4, 4.4, 8, 7.2, red);
+  c.rect(4, 4.4, 8, 1.2, redLight);
+  c.rect(7, 4.4, 2, 7.2, gold);
+  c.rect(7, 4.4, 2, 1.2, C(0xf6, 0xd6, 0x7a));
+  c.save("Naruto_Jedy_RP/textures/items/chakra_pill.png");
+}
+
+function drawExplosiveKunai() {
+  const c = new Canvas(16, 16, true);
+  // lâmina igual à kunai
+  for (let y = 1; y <= 9; y++) {
+    const hw = 1 + Math.round(((y - 1) / 9) * 1.4);
+    for (let x = 7 - hw; x <= 8 + hw; x++) {
+      c.px(x, y, x === 7 || x === 8 ? steelLight : steel);
+    }
+    c.px(7 - hw - 1, y, steelEdge);
+    c.px(8 + hw + 1, y, steelEdge);
+  }
+  c.px(7, 1, white);
+  c.rect(5, 10, 6, 1, steelDark);
+  c.rect(7, 11, 2, 1, handleDark);
+  // etiqueta explosiva vermelha
+  c.rect(4, 12, 8, 3, cloudRed);
+  c.rect(4, 12, 8, 1, C(0xe0, 0x6a, 0x5a));
+  c.px(6, 13, cloudRedDark);
+  c.px(8, 14, cloudRedDark);
+  c.px(10, 13, cloudRedDark);
+  c.save("Naruto_Jedy_RP/textures/items/explosive_kunai.png");
+}
+
+function drawFumaShuriken() {
+  const c = new Canvas(16, 16, true);
+  for (let j = 0; j < 16; j++) {
+    for (let i = 0; i < 16; i++) {
+      const dx = i - 7.5;
+      const dy = j - 7.5;
+      const adx = Math.abs(dx);
+      const ady = Math.abs(dy);
+      const d = Math.hypot(dx, dy);
+      // braços largos
+      if (Math.abs(adx - ady) <= 1.8 && Math.max(adx, ady) <= 7.6) {
+        c.px(i, j, Math.max(adx, ady) >= 6.5 ? steelEdge : adx >= 4 ? steelDark : steel);
+      }
+      // anel externo
+      if (d >= 6.6 && d <= 7.6) c.px(i, j, steelEdge);
+      if (d <= 6.2 && d >= 3.6) c.px(i, j, steelLight);
+      if (d < 3.4) c.px(i, j, [0, 0, 0, 0]);
+    }
+  }
+  c.save("Naruto_Jedy_RP/textures/items/fuma_shuriken.png");
+}
+
+function drawKaton() {
+  const c = new Canvas(16, 16, true);
+  c.circle(7.5, 8, 7.2, C(0xe8, 0x55, 0x2a));
+  c.circle(7.5, 8, 5.6, C(0xf0, 0x7a, 0x2a));
+  c.circle(7.5, 8, 3.8, C(0xf6, 0xb9, 0x3b));
+  c.circle(7.5, 8, 1.8, C(0xff, 0xf3, 0x8f));
+  c.circle(7.5, 8, 0.8, white);
+  // chamas ao redor
+  c.px(4, 2, C(0xf0, 0x7a, 0x2a));
+  c.px(5, 1, C(0xf6, 0xb9, 0x3b));
+  c.px(10, 1, C(0xf0, 0x7a, 0x2a));
+  c.px(11, 3, C(0xf6, 0xb9, 0x3b));
+  c.px(12, 13, C(0xe8, 0x55, 0x2a));
+  c.px(3, 13, C(0xe8, 0x55, 0x2a));
+  c.save("Naruto_Jedy_RP/textures/items/katon.png");
+}
+
+function drawRasenshuriken() {
+  const c = new Canvas(16, 16, true);
+  for (let j = 0; j < 16; j++) {
+    for (let i = 0; i < 16; i++) {
+      const dx = i - 7.5;
+      const dy = j - 7.5;
+      const adx = Math.abs(dx);
+      const ady = Math.abs(dy);
+      // estrela azul
+      if (Math.abs(adx - ady) <= 2.2 && Math.max(adx, ady) <= 7.4) {
+        c.px(i, j, Math.max(adx, ady) >= 6.2 ? C(0x2f, 0x6f, 0xd8) : rasenganMid);
+      }
+    }
+  }
+  // núcleo giratório
+  c.circle(7.5, 7.5, 3.2, rasenganBlue);
+  c.circle(7.5, 7.5, 1.5, white);
+  c.spiral(7.5, 7.5, 1.2, 0.5, 2.6, white, 0.06);
+  c.save("Naruto_Jedy_RP/textures/items/rasenshuriken.png");
+}
+
+function drawKageBunshin() {
+  const c = new Canvas(16, 16, true);
+  const paper = C(0x6f, 0x9f, 0xe8);
+  const paperDark = C(0x4a, 0x6f, 0xb8);
+  c.rect(4, 2, 8, 12, paper);
+  c.rect(4, 2, 1, 12, paperDark);
+  c.rect(11, 2, 1, 12, paperDark);
+  c.rect(4, 2, 8, 1, C(0x9f, 0xc4, 0xf2));
+  // duas figurinhas (clones)
+  c.rect(5, 5, 3, 4, white);
+  c.rect(9, 5, 3, 4, white);
+  c.px(6, 4, white);
+  c.px(10, 4, white);
+  // selo
+  c.rect(5, 12, 6, 1, cloudRed);
+  c.save("Naruto_Jedy_RP/textures/items/kage_bunshin.png");
+}
+
+function drawSharingan() {
+  const c = new Canvas(16, 16, true);
+  const red = C(0xc2, 0x2d, 0x2d);
+  const redDark = C(0x7c, 0x1c, 0x1c);
+  c.circle(7.5, 7.5, 7, red);
+  c.circle(7.5, 7.5, 6, redDark);
+  c.circle(7.5, 7.5, 4.4, red);
+  c.circle(7.5, 7.5, 1.6, C(0x1a, 0x1a, 0x1a));
+  for (let k = 0; k < 3; k++) {
+    const a = (k * 2 * Math.PI) / 3 - Math.PI / 2;
+    c.circle(7.5 + Math.cos(a) * 3.1, 7.5 + Math.sin(a) * 3.1, 0.9, C(0x1a, 0x1a, 0x1a));
+  }
+  c.circle(7.5, 7.5, 0.7, red);
+  c.save("Naruto_Jedy_RP/textures/items/sharingan.png");
+}
+
+function drawByakugan() {
+  const c = new Canvas(16, 16, true);
+  const pale = C(0xe8, 0xf2, 0xf5);
+  const ring = C(0xbf, 0xd8, 0xe0);
+  c.circle(7.5, 7.5, 7, pale);
+  c.circle(7.5, 7.5, 5.6, ring);
+  c.circle(7.5, 7.5, 3.4, C(0xd8, 0xe8, 0xee));
+  c.circle(7.5, 7.5, 2.4, white);
+  c.px(4, 4, C(0x9f, 0xbf, 0xcc));
+  c.px(11, 11, C(0x9f, 0xbf, 0xcc));
+  c.save("Naruto_Jedy_RP/textures/items/byakugan.png");
+}
+
+function drawShadowClone() {
+  drawChibi("Naruto_Jedy_RP/textures/entity/shadow_clone.png", {
+    hair: C(0xcf, 0xd6, 0xe8), // cabelo pálido
+    band: C(0x9f, 0xb4, 0xd8), // faixa clara
+    bandPlate: C(0xdf, 0xe6, 0xf2), // placa branca
+    bandSymbol: C(0x8f, 0xa0, 0xc0),
+    skin: C(0xf2, 0xc7, 0x9b),
+    eye: C(0x3a, 0x2a, 0x1a),
+    body: C(0xdf, 0xe6, 0xf2), // roupa clara
+    bodyTrim: C(0xb8, 0xc6, 0xe0),
+    bodyLine: C(0x9f, 0xb0, 0xd0),
+    arm: C(0xf2, 0xc7, 0x9b),
+    leg: C(0xb0, 0xbc, 0xd8),
+    shoe: C(0x8f, 0xa0, 0xc0),
+  });
+}
+
 // ------------------------------------------------------------
 //  Geração
 // ------------------------------------------------------------
@@ -510,11 +670,20 @@ drawKonohaHeadbandItem();
 drawAkatsukiCloakItem();
 drawRamen();
 drawTrainingScroll();
+drawChakraPill();
+drawExplosiveKunai();
+drawFumaShuriken();
+drawKaton();
+drawRasenshuriken();
+drawKageBunshin();
+drawSharingan();
+drawByakugan();
 drawHeadbandEntity();
 drawCloakEntity();
 drawNinjaSensei();
 drawRogueNinja();
 drawShopkeeper();
+drawShadowClone();
 drawPackIcon(64, orange).save("Naruto_Jedy_BP/pack_icon.png");
 drawPackIcon(64, redMain).save("Naruto_Jedy_RP/pack_icon.png");
 

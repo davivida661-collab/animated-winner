@@ -7,11 +7,22 @@ item.naruto:konoha_headband.name=Testeira de Konoha
 item.naruto:akatsuki_cloak.name=Manto da Akatsuki
 item.naruto:ramen.name=Ramen do Ichiraku
 item.naruto:training_scroll.name=Pergaminho de Treinamento
+item.naruto:chakra_pill.name=Pílula de Chakra
+item.naruto:explosive_kunai.name=Kunai Explosiva
+item.naruto:fuma_shuriken.name=Fuma Shuriken
+item.naruto:katon.name=Katon: Bola de Fogo
+item.naruto:rasenshuriken.name=Futon: Rasenshuriken
+item.naruto:kage_bunshin.name=Clone das Sombras
+item.naruto:sharingan.name=Sharingan
+item.naruto:byakugan.name=Byakugan
 
 entity.naruto:kunai_projectile.name=Kunai
 entity.naruto:shuriken_projectile.name=Shuriken
+entity.naruto:explosive_kunai_projectile.name=Kunai Explosiva
+entity.naruto:fuma_shuriken_projectile.name=Fuma Shuriken
 entity.naruto:ninja_sensei.name=Mestre Ninja
 entity.naruto:rogue_ninja.name=Ninja Renegado
 entity.naruto:shopkeeper.name=Mercador Ninja
+entity.naruto:shadow_clone.name=Clone das Sombras
 
 pack.name=Addon Naruto Jedy

@@ -28,6 +28,30 @@
     },
     "naruto_training_scroll": {
       "textures": "textures/items/training_scroll"
+    },
+    "naruto_chakra_pill": {
+      "textures": "textures/items/chakra_pill"
+    },
+    "naruto_explosive_kunai": {
+      "textures": "textures/items/explosive_kunai"
+    },
+    "naruto_fuma_shuriken": {
+      "textures": "textures/items/fuma_shuriken"
+    },
+    "naruto_katon": {
+      "textures": "textures/items/katon"
+    },
+    "naruto_rasenshuriken": {
+      "textures": "textures/items/rasenshuriken"
+    },
+    "naruto_kage_bunshin": {
+      "textures": "textures/items/kage_bunshin"
+    },
+    "naruto_sharingan": {
+      "textures": "textures/items/sharingan"
+    },
+    "naruto_byakugan": {
+      "textures": "textures/items/byakugan"
     }
   }
 }

@@ -1,0 +1,23 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:item": {
+    "description": {
+      "identifier": "naruto:byakugan",
+      "menu_category": {
+        "category": "equipment",
+        "group": "itemGroup.name.miscellaneous"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "textures": { "default": "naruto_byakugan" }
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:cooldown": {
+        "category": "naruto.byakugan",
+        "duration": 20.0
+      },
+      "minecraft:custom_components": ["naruto:byakugan"]
+    }
+  }
+}

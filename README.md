@@ -19,6 +19,19 @@ Addon **fan-made** para **Minecraft Bedrock (MCPE / Windows / Consoles)** com ar
 | 🌩️ **Manto da Akatsuki** | Peitoral (proteção 5) com nuvens vermelhas renderizado no jogador. |
 | 🍜 **Ramen do Ichiraku** | Comida: restaura 8 de fome + saturação. |
 | 📜 **Pergaminho de Treinamento** | Usa para ganhar **+50 XP** instantâneo (ótimo para upar nível). Vendido na loja e craftável. |
+| 💊 **Pílula de Chakra** | Restaura **+40 de chakra** na hora. |
+| 💣 **Kunai Explosiva** | Arremessável: **explode no impacto** (raio 3, sem destruir blocos). |
+| 🌀 **Fuma Shuriken** | Shuriken gigante, 8 de dano. |
+
+### ⚔️ Habilidades (jutsus e doujutsus)
+
+| Habilidade | Nível | Chakra | Efeito |
+|---|---|---|---|
+| 🔥 **Katon: Bola de Fogo** | 1 | 25 | Dano de fogo em área (8) + incendeia inimigos |
+| 👁️ **Sharingan** | 2 | 20 | Visão noturna + Velocidade II + Super Pulo |
+| 💨 **Clone das Sombras** | 3 | 45 | Invoca **2 clones** que lutam ao seu lado por 30s |
+| 👁️ **Byakugan** | 4 | 25 | Faz **todos os mobs ao redor (30 blocos) brilharem** através das paredes |
+| 🌀 **Futon: Rasenshuriken** | 5 | 50 | Onda de choque gigante (16 de dano, raio 8) |
 
 ### 🧙 NPCs
 
@@ -77,6 +90,14 @@ tools/generate_textures.mjs  ← script que gera as texturas (node tools/generat
 /give @s naruto:shopkeeper_spawn_egg
 /give @s naruto:rogue_ninja_spawn_egg
 /give @s naruto:training_scroll 8
+/give @s naruto:chakra_pill 8
+/give @s naruto:explosive_kunai 8
+/give @s naruto:fuma_shuriken 4
+/give @s naruto:katon
+/give @s naruto:sharingan
+/give @s naruto:kage_bunshin
+/give @s naruto:byakugan
+/give @s naruto:rasenshuriken
 ```
 
 Todos os itens também têm **receita na mesa de criação** (ferro + graveto para kunais, diamante para a Kusanagi, lápis-lazúli/pó de blaze para os jutsus, etc.).
@@ -110,7 +131,15 @@ Todos os itens também têm **receita na mesa de criação** (ferro + graveto pa
 
 ---
 
-## 📜 Changelog v1.3.0
+## 📜 Changelog v1.4.0
+
+- **8 itens novos com texturas**: Pílula de Chakra, Kunai Explosiva (explode no impacto), Fuma Shuriken, Katon, Rasenshuriken, Clone das Sombras, Sharingan e Byakugan
+- **Sistema de habilidades desbloqueáveis por nível** (Sharingan: 2, Clone: 3, Byakugan: 4, Rasenshuriken: 5)
+- **Clone das Sombras**: entidade chibi que segue e luta ao lado do jogador por 30s
+- Loja reorganizada em categorias (Armas / Jutsus e Habilidades / Itens e Consumíveis) com 17 produtos
+- 8 novas receitas de crafting e kit inicial agora pode incluir Pílula de Chakra
+
+### v1.3.0
 
 - **Compatibilidade com Minecraft 1.26.33**: atualizado para a Script API **2.x** (`@minecraft/server` 2.6.0 + `@minecraft/server-ui` 2.0.0) e `min_engine_version` [1, 26, 33]
 - Ajustado o código para a Script API 2.x, onde os scripts executam **antes do mundo carregar** — o HUD agora inicia após o `worldLoad`
