@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "naruto:akatsuki_cloak_recipe"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      { "item": "minecraft:leather" },
+      { "item": "minecraft:black_dye" },
+      { "item": "minecraft:red_dye" }
+    ],
+    "result": { "item": "naruto:akatsuki_cloak", "count": 1 }
+  }
+}

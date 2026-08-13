@@ -1,0 +1,34 @@
+item.naruto:kunai.name=Kunai
+item.naruto:shuriken.name=Shuriken
+item.naruto:rasengan.name=Rasengan
+item.naruto:chidori.name=Chidori
+item.naruto:kusanagi.name=Espada Kusanagi
+item.naruto:konoha_headband.name=Testeira de Konoha
+item.naruto:akatsuki_cloak.name=Manto da Akatsuki
+item.naruto:ramen.name=Ramen do Ichiraku
+item.naruto:training_scroll.name=Pergaminho de Treinamento
+item.naruto:chakra_pill.name=Pílula de Chakra
+item.naruto:explosive_kunai.name=Kunai Explosiva
+item.naruto:fuma_shuriken.name=Fuma Shuriken
+item.naruto:katon.name=Katon: Bola de Fogo
+item.naruto:rasenshuriken.name=Futon: Rasenshuriken
+item.naruto:kage_bunshin.name=Clone das Sombras
+item.naruto:sharingan.name=Sharingan
+item.naruto:byakugan.name=Byakugan
+item.naruto:suiton.name=Suiton: Jato de Água
+item.naruto:doton.name=Doton: Muralha de Pedra
+item.naruto:raikiri.name=Raikiri
+item.naruto:kyuubi.name=Modo Kyuubi
+
+entity.naruto:kunai_projectile.name=Kunai
+entity.naruto:shuriken_projectile.name=Shuriken
+entity.naruto:explosive_kunai_projectile.name=Kunai Explosiva
+entity.naruto:fuma_shuriken_projectile.name=Fuma Shuriken
+entity.naruto:ninja_sensei.name=Mestre Ninja
+entity.naruto:rogue_ninja.name=Ninja Renegado
+entity.naruto:shopkeeper.name=Mercador Ninja
+entity.naruto:shadow_clone.name=Clone das Sombras
+entity.naruto:suiton_projectile.name=Jato de Água
+entity.naruto:bow_ninja.name=Ninja Arqueiro
+
+pack.name=Addon Naruto Jedy

@@ -1,0 +1,21 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "naruto:akatsuki_cloak",
+      "item": {
+        "naruto:akatsuki_cloak": "query.owner_identifier == 'minecraft:player'"
+      },
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/akatsuki_cloak_entity"
+      },
+      "geometry": {
+        "default": "geometry.naruto_cloak"
+      },
+      "render_controllers": ["controller.render.default"]
+    }
+  }
+}

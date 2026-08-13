@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "naruto:explosive_kunai_recipe"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      { "item": "naruto:kunai" },
+      { "item": "minecraft:gunpowder" },
+      { "item": "minecraft:red_dye" }
+    ],
+    "result": { "item": "naruto:explosive_kunai", "count": 1 }
+  }
+}

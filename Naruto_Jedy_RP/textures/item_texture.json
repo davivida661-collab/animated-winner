@@ -1,0 +1,69 @@
+{
+  "resource_pack_name": "naruto_jedy",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "naruto_kunai": {
+      "textures": "textures/items/kunai"
+    },
+    "naruto_shuriken": {
+      "textures": "textures/items/shuriken"
+    },
+    "naruto_rasengan": {
+      "textures": "textures/items/rasengan"
+    },
+    "naruto_chidori": {
+      "textures": "textures/items/chidori"
+    },
+    "naruto_kusanagi": {
+      "textures": "textures/items/kusanagi"
+    },
+    "naruto_konoha_headband": {
+      "textures": "textures/items/konoha_headband"
+    },
+    "naruto_akatsuki_cloak": {
+      "textures": "textures/items/akatsuki_cloak"
+    },
+    "naruto_ramen": {
+      "textures": "textures/items/ramen"
+    },
+    "naruto_training_scroll": {
+      "textures": "textures/items/training_scroll"
+    },
+    "naruto_chakra_pill": {
+      "textures": "textures/items/chakra_pill"
+    },
+    "naruto_explosive_kunai": {
+      "textures": "textures/items/explosive_kunai"
+    },
+    "naruto_fuma_shuriken": {
+      "textures": "textures/items/fuma_shuriken"
+    },
+    "naruto_katon": {
+      "textures": "textures/items/katon"
+    },
+    "naruto_rasenshuriken": {
+      "textures": "textures/items/rasenshuriken"
+    },
+    "naruto_kage_bunshin": {
+      "textures": "textures/items/kage_bunshin"
+    },
+    "naruto_sharingan": {
+      "textures": "textures/items/sharingan"
+    },
+    "naruto_byakugan": {
+      "textures": "textures/items/byakugan"
+    },
+    "naruto_suiton": {
+      "textures": "textures/items/suiton"
+    },
+    "naruto_doton": {
+      "textures": "textures/items/doton"
+    },
+    "naruto_raikiri": {
+      "textures": "textures/items/raikiri"
+    },
+    "naruto_kyuubi": {
+      "textures": "textures/items/kyuubi"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+item.naruto:kunai.name=Kunai
+item.naruto:shuriken.name=Shuriken
+item.naruto:rasengan.name=Rasengan
+item.naruto:chidori.name=Chidori
+item.naruto:kusanagi.name=Kusanagi Blade
+item.naruto:konoha_headband.name=Konoha Headband
+item.naruto:akatsuki_cloak.name=Akatsuki Cloak
+item.naruto:ramen.name=Ichiraku Ramen
+item.naruto:training_scroll.name=Training Scroll
+item.naruto:chakra_pill.name=Chakra Pill
+item.naruto:explosive_kunai.name=Explosive Kunai
+item.naruto:fuma_shuriken.name=Fuma Shuriken
+item.naruto:katon.name=Katon: Fireball
+item.naruto:rasenshuriken.name=Futon: Rasenshuriken
+item.naruto:kage_bunshin.name=Shadow Clone
+item.naruto:sharingan.name=Sharingan
+item.naruto:byakugan.name=Byakugan
+item.naruto:suiton.name=Suiton: Water Jet
+item.naruto:doton.name=Doton: Stone Wall
+item.naruto:raikiri.name=Raikiri
+item.naruto:kyuubi.name=Kyuubi Mode
+
+entity.naruto:kunai_projectile.name=Kunai
+entity.naruto:shuriken_projectile.name=Shuriken
+entity.naruto:explosive_kunai_projectile.name=Explosive Kunai
+entity.naruto:fuma_shuriken_projectile.name=Fuma Shuriken
+entity.naruto:ninja_sensei.name=Ninja Sensei
+entity.naruto:rogue_ninja.name=Rogue Ninja
+entity.naruto:shopkeeper.name=Ninja Merchant
+entity.naruto:shadow_clone.name=Shadow Clone
+entity.naruto:suiton_projectile.name=Water Jet
+entity.naruto:bow_ninja.name=Bow Ninja
+
+pack.name=Naruto Jedy Addon

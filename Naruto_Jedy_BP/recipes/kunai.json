@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "naruto:kunai_recipe"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["  I", " S ", "S  "],
+    "key": {
+      "I": { "item": "minecraft:iron_ingot" },
+      "S": { "item": "minecraft:stick" }
+    },
+    "result": { "item": "naruto:kunai", "count": 2 }
+  }
+}

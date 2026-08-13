@@ -1,0 +1,13 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "naruto:shuriken_recipe"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      { "item": "minecraft:iron_ingot" }
+    ],
+    "result": { "item": "naruto:shuriken", "count": 4 }
+  }
+}

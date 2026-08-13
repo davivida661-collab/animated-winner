@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "naruto:rasenshuriken_recipe"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      { "item": "naruto:rasengan" },
+      { "item": "minecraft:paper" },
+      { "item": "minecraft:lapis_lazuli" }
+    ],
+    "result": { "item": "naruto:rasenshuriken", "count": 1 }
+  }
+}
