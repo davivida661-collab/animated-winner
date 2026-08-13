@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "naruto:rasengan_recipe"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      { "item": "minecraft:blaze_powder" },
+      { "item": "minecraft:lapis_lazuli" },
+      { "item": "minecraft:glowstone_dust" }
+    ],
+    "result": { "item": "naruto:rasengan", "count": 1 }
+  }
+}

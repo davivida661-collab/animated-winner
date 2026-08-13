@@ -1,0 +1,15 @@
+{
+  "format_version": "1.21.40",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "naruto:chidori_recipe"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      { "item": "minecraft:emerald" },
+      { "item": "minecraft:redstone" },
+      { "item": "minecraft:lapis_lazuli" }
+    ],
+    "result": { "item": "naruto:chidori", "count": 1 }
+  }
+}

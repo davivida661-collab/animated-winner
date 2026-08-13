@@ -1,0 +1,25 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "naruto:shopkeeper",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/shopkeeper"
+      },
+      "geometry": {
+        "default": "geometry.naruto.chibi"
+      },
+      "animations": {
+        "idle": "animation.naruto.npc_idle",
+        "walk": "animation.naruto.npc_walk"
+      },
+      "scripts": {
+        "animate": ["idle", { "walk": "query.is_moving" }]
+      },
+      "render_controllers": ["controller.render.default"]
+    }
+  }
+}

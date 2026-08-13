@@ -1,0 +1,17 @@
+item.naruto:kunai.name=Kunai
+item.naruto:shuriken.name=Shuriken
+item.naruto:rasengan.name=Rasengan
+item.naruto:chidori.name=Chidori
+item.naruto:kusanagi.name=Espada Kusanagi
+item.naruto:konoha_headband.name=Testeira de Konoha
+item.naruto:akatsuki_cloak.name=Manto da Akatsuki
+item.naruto:ramen.name=Ramen do Ichiraku
+item.naruto:training_scroll.name=Pergaminho de Treinamento
+
+entity.naruto:kunai_projectile.name=Kunai
+entity.naruto:shuriken_projectile.name=Shuriken
+entity.naruto:ninja_sensei.name=Mestre Ninja
+entity.naruto:rogue_ninja.name=Ninja Renegado
+entity.naruto:shopkeeper.name=Mercador Ninja
+
+pack.name=Addon Naruto Jedy

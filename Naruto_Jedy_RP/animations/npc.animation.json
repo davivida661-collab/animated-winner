@@ -1,0 +1,32 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.naruto.npc_idle": {
+      "loop": true,
+      "animation_length": 2,
+      "bones": {
+        "head": {
+          "rotation": [0, "math.sin(query.anim_time * 2) * 10", 0]
+        }
+      }
+    },
+    "animation.naruto.npc_walk": {
+      "loop": true,
+      "animation_length": 1,
+      "bones": {
+        "armL": {
+          "rotation": ["math.sin(query.anim_time * 8) * 40", 0, 0]
+        },
+        "armR": {
+          "rotation": ["-math.sin(query.anim_time * 8) * 40", 0, 0]
+        },
+        "legL": {
+          "rotation": ["-math.sin(query.anim_time * 8) * 40", 0, 0]
+        },
+        "legR": {
+          "rotation": ["math.sin(query.anim_time * 8) * 40", 0, 0]
+        }
+      }
+    }
+  }
+}

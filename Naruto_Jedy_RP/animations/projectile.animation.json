@@ -1,0 +1,23 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.naruto.kunai_spin": {
+      "loop": true,
+      "animation_length": 0.5,
+      "bones": {
+        "cube": {
+          "rotation": [0, "query.anim_time * 720", 0]
+        }
+      }
+    },
+    "animation.naruto.shuriken_spin": {
+      "loop": true,
+      "animation_length": 0.4,
+      "bones": {
+        "shuriken": {
+          "rotation": [0, "query.anim_time * 1440", 0]
+        }
+      }
+    }
+  }
+}

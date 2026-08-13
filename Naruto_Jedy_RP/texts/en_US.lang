@@ -1,0 +1,17 @@
+item.naruto:kunai.name=Kunai
+item.naruto:shuriken.name=Shuriken
+item.naruto:rasengan.name=Rasengan
+item.naruto:chidori.name=Chidori
+item.naruto:kusanagi.name=Kusanagi Blade
+item.naruto:konoha_headband.name=Konoha Headband
+item.naruto:akatsuki_cloak.name=Akatsuki Cloak
+item.naruto:ramen.name=Ichiraku Ramen
+item.naruto:training_scroll.name=Training Scroll
+
+entity.naruto:kunai_projectile.name=Kunai
+entity.naruto:shuriken_projectile.name=Shuriken
+entity.naruto:ninja_sensei.name=Ninja Sensei
+entity.naruto:rogue_ninja.name=Rogue Ninja
+entity.naruto:shopkeeper.name=Ninja Merchant
+
+pack.name=Naruto Jedy Addon
