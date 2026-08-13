@@ -2,7 +2,7 @@
 //  Naruto Jedy Addon — Script API
 //  Jutsus, armas arremessáveis, NPCs (loja + contratação),
 //  sistema de nível e chakra, kit inicial aleatório.
-//  Requer Minecraft Bedrock 1.21.50+ (@minecraft/server 1.11+)
+//  Requer Minecraft Bedrock 1.26.33+ (@minecraft/server 2.x)
 // ============================================================
 import {
   world,
@@ -538,32 +538,10 @@ world.afterEvents.entityDie.subscribe((event) => {
 });
 
 // ------------------------------------------------------------
-//  HUD: barra de nível + chakra (regenera chakra)
-// ------------------------------------------------------------
-
-system.runInterval(() => {
-  for (const player of world.getAllPlayers()) {
-    const level = getLevel(player);
-    const max = maxChakra(level);
-    const chakra = getChakra(player);
-    if (chakra < max) {
-      player.setDynamicProperty(CHAKRA_KEY, Math.min(max, chakra + 3));
-    }
-    const xp = getXp(player);
-    const needed = xpToNext(level);
-    const ratio = Math.max(0, Math.min(1, xp / needed));
-    const filled = Math.round(ratio * 10);
-    const bar = "█".repeat(filled) + "░".repeat(10 - filled);
-    player.onScreenDisplay.setActionBar(
-      `§6🍥 Nível ${level} §7[§f${bar}§7] §8${xp}/${needed} §7| §b✧ ${getChakra(player)}/${max}`
-    );
-  }
-}, 20);
-
-// ------------------------------------------------------------
 //  Registro
 // ------------------------------------------------------------
 
+// Componentes customizados (disponível antes do mundo carregar)
 world.beforeEvents.worldInitialize.subscribe((initEvent) => {
   const registry = initEvent.itemComponentRegistry;
   registry.registerCustomComponent("naruto:throw_kunai", throwKunai);
@@ -571,4 +549,27 @@ world.beforeEvents.worldInitialize.subscribe((initEvent) => {
   registry.registerCustomComponent("naruto:rasengan", rasengan);
   registry.registerCustomComponent("naruto:chidori", chidori);
   registry.registerCustomComponent("naruto:training_scroll", trainingScroll);
+});
+
+// Na Script API 2.x o script executa antes do mundo carregar:
+// o HUD (que toca o mundo) só inicia depois do worldLoad.
+world.afterEvents.worldLoad.subscribe(() => {
+  system.runInterval(() => {
+    for (const player of world.getAllPlayers()) {
+      const level = getLevel(player);
+      const max = maxChakra(level);
+      const chakra = getChakra(player);
+      if (chakra < max) {
+        player.setDynamicProperty(CHAKRA_KEY, Math.min(max, chakra + 3));
+      }
+      const xp = getXp(player);
+      const needed = xpToNext(level);
+      const ratio = Math.max(0, Math.min(1, xp / needed));
+      const filled = Math.round(ratio * 10);
+      const bar = "█".repeat(filled) + "░".repeat(10 - filled);
+      player.onScreenDisplay.setActionBar(
+        `§6🍥 Nível ${level} §7[§f${bar}§7] §8${xp}/${needed} §7| §b✧ ${getChakra(player)}/${max}`
+      );
+    }
+  }, 20);
 });

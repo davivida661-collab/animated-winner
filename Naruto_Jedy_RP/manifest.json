@@ -4,8 +4,8 @@
     "name": "Naruto Jedy Addon (Recursos)",
     "description": "Texturas, modelos e animações do addon Naruto Jedy.",
     "uuid": "a1b2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
-    "version": [1, 0, 0],
-    "min_engine_version": [1, 21, 50]
+    "version": [1, 3, 0],
+    "min_engine_version": [1, 26, 33]
   },
   "modules": [
     {

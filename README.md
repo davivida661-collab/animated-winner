@@ -94,7 +94,7 @@ Todos os itens também têm **receita na mesa de criação** (ferro + graveto pa
 
 ## 🔧 Requisitos
 
-- Minecraft Bedrock **1.21.50 ou superior** (Script API + server-ui).
+- Minecraft Bedrock **1.26.33 ou superior** (Script API 2.x + server-ui 2.x).
 - Ative **"Habilidades de Criador/Teste"** no mundo se o script não carregar (em alguns dispositivos é chamado de "Experimental").
 
 ---
@@ -110,7 +110,12 @@ Todos os itens também têm **receita na mesa de criação** (ferro + graveto pa
 
 ---
 
-## 📜 Changelog v1.2.0
+## 📜 Changelog v1.3.0
+
+- **Compatibilidade com Minecraft 1.26.33**: atualizado para a Script API **2.x** (`@minecraft/server` 2.6.0 + `@minecraft/server-ui` 2.0.0) e `min_engine_version` [1, 26, 33]
+- Ajustado o código para a Script API 2.x, onde os scripts executam **antes do mundo carregar** — o HUD agora inicia após o `worldLoad`
+
+### v1.2.0
 
 - **NPC de loja**: Mercador Ninja com menu de compra/venda usando esmeraldas (9 itens à venda, 4 itens de troca)
 - **Spawn natural**: Mestre Ninja e Mercador spawnam de dia; Ninjas Renegados à noite (spawn rules)
