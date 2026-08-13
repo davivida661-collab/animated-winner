@@ -15,6 +15,10 @@ item.naruto:rasenshuriken.name=Futon: Rasenshuriken
 item.naruto:kage_bunshin.name=Clone das Sombras
 item.naruto:sharingan.name=Sharingan
 item.naruto:byakugan.name=Byakugan
+item.naruto:suiton.name=Suiton: Jato de Água
+item.naruto:doton.name=Doton: Muralha de Pedra
+item.naruto:raikiri.name=Raikiri
+item.naruto:kyuubi.name=Modo Kyuubi
 
 entity.naruto:kunai_projectile.name=Kunai
 entity.naruto:shuriken_projectile.name=Shuriken
@@ -24,5 +28,7 @@ entity.naruto:ninja_sensei.name=Mestre Ninja
 entity.naruto:rogue_ninja.name=Ninja Renegado
 entity.naruto:shopkeeper.name=Mercador Ninja
 entity.naruto:shadow_clone.name=Clone das Sombras
+entity.naruto:suiton_projectile.name=Jato de Água
+entity.naruto:bow_ninja.name=Ninja Arqueiro
 
 pack.name=Addon Naruto Jedy

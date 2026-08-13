@@ -52,6 +52,18 @@
     },
     "naruto_byakugan": {
       "textures": "textures/items/byakugan"
+    },
+    "naruto_suiton": {
+      "textures": "textures/items/suiton"
+    },
+    "naruto_doton": {
+      "textures": "textures/items/doton"
+    },
+    "naruto_raikiri": {
+      "textures": "textures/items/raikiri"
+    },
+    "naruto_kyuubi": {
+      "textures": "textures/items/kyuubi"
     }
   }
 }

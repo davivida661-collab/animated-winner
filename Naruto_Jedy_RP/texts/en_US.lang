@@ -15,6 +15,10 @@ item.naruto:rasenshuriken.name=Futon: Rasenshuriken
 item.naruto:kage_bunshin.name=Shadow Clone
 item.naruto:sharingan.name=Sharingan
 item.naruto:byakugan.name=Byakugan
+item.naruto:suiton.name=Suiton: Water Jet
+item.naruto:doton.name=Doton: Stone Wall
+item.naruto:raikiri.name=Raikiri
+item.naruto:kyuubi.name=Kyuubi Mode
 
 entity.naruto:kunai_projectile.name=Kunai
 entity.naruto:shuriken_projectile.name=Shuriken
@@ -24,5 +28,7 @@ entity.naruto:ninja_sensei.name=Ninja Sensei
 entity.naruto:rogue_ninja.name=Rogue Ninja
 entity.naruto:shopkeeper.name=Ninja Merchant
 entity.naruto:shadow_clone.name=Shadow Clone
+entity.naruto:suiton_projectile.name=Water Jet
+entity.naruto:bow_ninja.name=Bow Ninja
 
 pack.name=Naruto Jedy Addon

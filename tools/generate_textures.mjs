@@ -658,6 +658,124 @@ function drawShadowClone() {
   });
 }
 
+function drawBowNinja() {
+  drawChibi("Naruto_Jedy_RP/textures/entity/bow_ninja.png", {
+    hair: C(0x3a, 0x5a, 0x4a), // cabelo verde-escuro
+    band: C(0x2b, 0x4a, 0x3a), // faixa escura
+    bandPlate: C(0x6b, 0x8a, 0x6a), // placa esverdeada
+    bandSymbol: C(0x1c, 0x2c, 0x20),
+    skin: C(0xe8, 0xb9, 0x8a),
+    eye: C(0x1a, 0x1a, 0x1a),
+    body: C(0x4a, 0x6f, 0x5a), // colete verde
+    bodyTrim: C(0x8f, 0xa8, 0x7a),
+    bodyLine: C(0x2c, 0x4a, 0x38),
+    arm: C(0xe8, 0xb9, 0x8a),
+    leg: C(0x2f, 0x3a, 0x30),
+    shoe: C(0x1c, 0x24, 0x1c),
+  });
+}
+
+function drawSuiton() {
+  const c = new Canvas(16, 16, true);
+  const water = C(0x2e, 0x86, 0xe8);
+  const waterMid = C(0x4f, 0xa8, 0xf2);
+  const waterLight = C(0x9f, 0xd6, 0xff);
+  c.circle(7.5, 7.5, 7.2, water);
+  c.circle(7.5, 7.5, 5.6, waterMid);
+  c.circle(7.5, 7.5, 3.4, waterLight);
+  c.circle(7.5, 7.5, 1.4, white);
+  c.spiral(7.5, 7.5, 1.4, 1.4, 5.4, white, 0.05);
+  // brilhos de água
+  c.px(4, 3, white);
+  c.px(11, 4, white);
+  c.px(12, 11, white);
+  c.px(3, 12, white);
+  c.save("Naruto_Jedy_RP/textures/items/suiton.png");
+}
+
+function drawDoton() {
+  const c = new Canvas(16, 16, true);
+  const rock = C(0x8a, 0x6d, 0x4a);
+  const rockMid = C(0x6b, 0x52, 0x36);
+  const rockDark = C(0x4a, 0x38, 0x24);
+  c.circle(7.5, 7.5, 7.2, rock);
+  c.circle(7.5, 7.5, 5.4, rockMid);
+  c.circle(7.5, 7.5, 2.6, rockDark);
+  // rachaduras
+  c.line(4, 3, 7, 7, 0.7, rockDark);
+  c.line(7, 7, 5, 12, 0.7, rockDark);
+  c.line(7, 7, 12, 5, 0.7, rockDark);
+  c.line(9, 10, 13, 12, 0.6, rockDark);
+  c.line(3, 10, 5, 12, 0.6, rockDark);
+  c.px(7, 7, C(0x3a, 0x2c, 0x1c));
+  c.px(12, 5, C(0x3a, 0x2c, 0x1c));
+  c.save("Naruto_Jedy_RP/textures/items/doton.png");
+}
+
+function drawRaikiri() {
+  const c = new Canvas(16, 16, false);
+  c.rect(0, 0, 16, 16, C(0x0a, 0x10, 0x2e));
+  // relâmpago central branco-azulado
+  const pts = [
+    [3, 0],
+    [7, 4],
+    [4, 6],
+    [9, 10],
+    [6, 12],
+    [11, 16],
+  ];
+  for (let k = 0; k < pts.length - 1; k++) {
+    c.line(pts[k][0], pts[k][1], pts[k + 1][0], pts[k + 1][1], 2.4, boltLight);
+  }
+  for (let k = 0; k < pts.length - 1; k++) {
+    c.line(pts[k][0], pts[k][1], pts[k + 1][0], pts[k + 1][1], 1.0, white);
+  }
+  // raios secundários
+  c.line(8, 5, 13, 3, 0.7, boltLight);
+  c.line(7, 11, 12, 13, 0.7, boltLight);
+  c.line(2, 12, 5, 14, 0.7, boltLight);
+  c.px(13, 3, white);
+  c.px(12, 13, white);
+  c.px(5, 14, white);
+  c.save("Naruto_Jedy_RP/textures/items/raikiri.png");
+}
+
+function drawKyuubi() {
+  const c = new Canvas(16, 16, true);
+  const foxRed = C(0xd8, 0x3a, 0x1e);
+  const foxDark = C(0x9a, 0x24, 0x12);
+  const foxLight = C(0xf0, 0x7a, 0x2a);
+  // rosto de raposa
+  c.circle(7.5, 7.5, 7.2, foxRed);
+  c.circle(7.5, 7.5, 5.4, foxLight);
+  // orelhas
+  c.px(4, 0, foxRed);
+  c.px(5, 1, foxRed);
+  c.px(10, 0, foxRed);
+  c.px(11, 1, foxRed);
+  c.px(5, 2, foxLight);
+  c.px(11, 2, foxLight);
+  // olhos com pupilas
+  c.px(5, 6, C(0x1a, 0x1a, 0x1a));
+  c.px(6, 6, C(0x1a, 0x1a, 0x1a));
+  c.px(9, 6, C(0x1a, 0x1a, 0x1a));
+  c.px(10, 6, C(0x1a, 0x1a, 0x1a));
+  // bigodes
+  c.line(3, 8, 6, 9, 0.5, C(0xff, 0xd9, 0xa8));
+  c.line(9, 9, 13, 8, 0.5, C(0xff, 0xd9, 0xa8));
+  c.line(4, 10, 6, 10, 0.5, C(0xff, 0xd9, 0xa8));
+  c.line(10, 10, 12, 10, 0.5, C(0xff, 0xd9, 0xa8));
+  // focinho
+  c.circle(7.5, 11, 1.6, foxDark);
+  c.px(7.5, 9, foxDark);
+  // caudas ao redor
+  c.line(1, 5, 2, 2, 1.0, foxRed);
+  c.line(15, 5, 14, 2, 1.0, foxRed);
+  c.line(1, 12, 3, 15, 1.0, foxRed);
+  c.line(15, 12, 13, 15, 1.0, foxRed);
+  c.save("Naruto_Jedy_RP/textures/items/kyuubi.png");
+}
+
 // ------------------------------------------------------------
 //  Geração
 // ------------------------------------------------------------
@@ -684,6 +802,11 @@ drawNinjaSensei();
 drawRogueNinja();
 drawShopkeeper();
 drawShadowClone();
+drawBowNinja();
+drawSuiton();
+drawDoton();
+drawRaikiri();
+drawKyuubi();
 drawPackIcon(64, orange).save("Naruto_Jedy_BP/pack_icon.png");
 drawPackIcon(64, redMain).save("Naruto_Jedy_RP/pack_icon.png");
 
