@@ -2,7 +2,7 @@
 //  Naruto Jedy Addon — Script API
 //  Jutsus, armas arremessáveis, habilidades, NPCs (loja +
 //  contratação), sistema de nível e chakra, kit inicial.
-//  Requer Minecraft Bedrock 1.26.33+ (@minecraft/server 2.x)
+//  Requer Minecraft Bedrock 1.26.33+ (@minecraft/server 2.8.0)
 // ============================================================
 import {
   world,
@@ -24,6 +24,24 @@ const STARTER_KEY = "naruto:starter_given";
 
 const xpToNext = (level) => 100 + (level - 1) * 50;
 const maxChakra = (level) => 100 + (level - 1) * 10;
+
+// Ranks ninja: progridem com o nível do jogador
+const RANKS = [
+  { level: 1, name: "Genin", color: "§f" },
+  { level: 5, name: "Chunin", color: "§a" },
+  { level: 10, name: "Jonin", color: "§b" },
+  { level: 15, name: "ANBU", color: "§d" },
+  { level: 20, name: "Kage", color: "§6" },
+];
+
+function getRank(player) {
+  const level = getLevel(player);
+  let rank = RANKS[0];
+  for (const r of RANKS) {
+    if (level >= r.level) rank = r;
+  }
+  return rank;
+}
 
 function getLevel(player) {
   return player.getDynamicProperty(LEVEL_KEY) ?? 1;
@@ -48,12 +66,13 @@ function addXp(player, amount) {
   player.setDynamicProperty(LEVEL_KEY, level);
   player.setDynamicProperty(XP_KEY, xp);
   if (leveledUp) {
+    const rank = getRank(player);
     player.playSound("random.levelup");
     player.onScreenDisplay.setTitle(`§6§lNÍVEL ${level}!`, {
       fadeInDuration: 5,
       stayDuration: 40,
       fadeOutDuration: 10,
-      subtitle: `§eChakra máximo agora é ${maxChakra(level)}!`,
+      subtitle: `${rank.color}Rank: ${rank.name}§r · §bChakra máx: ${maxChakra(level)}`,
     });
     player.addEffect("absorption", 400, { amplifier: 1, showParticles: true });
     player.addEffect("speed", 200, { amplifier: 0, showParticles: false });
@@ -110,6 +129,7 @@ const XP_VALUES = {
   "minecraft:piglin_brute": 25,
   "minecraft:warden": 80,
   "naruto:rogue_ninja": 30,
+  "naruto:bow_ninja": 25,
   "naruto:shadow_clone": 0,
 };
 
@@ -428,6 +448,121 @@ const byakugan = {
   },
 };
 
+const suiton = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!spendChakra(source, 15)) return;
+    shootProjectile(source, "naruto:suiton_projectile", 2.2);
+    source.addEffect("water_breathing", 200, { showParticles: false });
+    source.sendMessage("§b💧 Suiton: Jato de Água!");
+    addXp(source, 2);
+  },
+};
+
+const doton = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!spendChakra(source, 20)) return;
+    const dimension = source.dimension;
+    const loc = source.location;
+    // Muralha de pedra: defesa pesada por 20s
+    source.addEffect("resistance", 400, { amplifier: 1, showParticles: true });
+    source.addEffect("absorption", 400, { amplifier: 1, showParticles: true });
+    // Empurra e desacelera inimigos próximos
+    const targets = dimension
+      .getEntities({ location: loc, maxDistance: 4 })
+      .filter(
+        (entity) =>
+          entity.id !== source.id &&
+          entity.typeId !== "minecraft:item" &&
+          entity.typeId !== "minecraft:xp_orb"
+      );
+    for (const target of targets) {
+      target.applyKnockback(loc.x - target.location.x, loc.z - target.location.z, 2.2, 0.8);
+      target.addEffect("slowness", 100, { amplifier: 1, showParticles: false });
+    }
+    spawnBurst(dimension, { x: loc.x, y: loc.y + 0.5, z: loc.z }, "minecraft:basic_smoke_particle", 26, 3);
+    source.sendMessage("§6🪨 Doton: Muralha de Pedra! Sua defesa foi elevada.");
+    addXp(source, 2);
+  },
+};
+
+const raikiri = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!requireLevel(source, 6)) return;
+    if (!spendChakra(source, 55)) return;
+    const dimension = source.dimension;
+    const head = source.getHeadLocation();
+    const view = source.getViewDirection();
+    const len = Math.hypot(view.x, view.y, view.z) || 1;
+    const dir = { x: view.x / len, y: view.y / len, z: view.z / len };
+    const damage = 12 + Math.floor(getLevel(source) / 3);
+    const targets = dimension
+      .getEntities({ location: head, maxDistance: 10 })
+      .filter(
+        (entity) =>
+          entity.id !== source.id &&
+          entity.typeId !== "minecraft:item" &&
+          entity.typeId !== "minecraft:xp_orb"
+      );
+    for (const target of targets) {
+      const dx = target.location.x - head.x;
+      const dy = target.location.y - head.y + 0.9;
+      const dz = target.location.z - head.z;
+      const dist = Math.hypot(dx, dy, dz) || 1;
+      const dot = (dx * dir.x + dy * dir.y + dz * dir.z) / dist;
+      if (dot > 0.8) {
+        target.applyDamage(damage, { cause: EntityDamageCause.magic });
+      }
+    }
+    source.addEffect("speed", 100, { amplifier: 2, showParticles: false });
+    // Faíscas ao longo da linha de visão
+    for (let i = 1; i <= 7; i++) {
+      dimension.spawnParticle("minecraft:electric_spark_particle", {
+        x: head.x + dir.x * i * 1.3,
+        y: head.y + dir.y * i * 1.3,
+        z: head.z + dir.z * i * 1.3,
+      });
+    }
+    spawnBurst(
+      dimension,
+      { x: head.x + dir.x * 4, y: head.y + dir.y * 4, z: head.z + dir.z * 4 },
+      "minecraft:electric_spark_particle",
+      24,
+      2.5
+    );
+    source.sendMessage("§e⚡ Raikiri! O relâmpago corta o ar.");
+    addXp(source, 5);
+  },
+};
+
+// Modo Kyuubi: transformação com partículas enquanto ativa
+const KYUUBI_DURATION = 600; // ticks (30s)
+const kyuubiActive = new Map(); // playerId -> tick de expiração
+
+const kyuubi = {
+  onUse(eventData) {
+    const { source } = eventData;
+    if (!requireLevel(source, 7)) return;
+    if (!spendChakra(source, 75)) return;
+    source.addEffect("strength", KYUUBI_DURATION, { amplifier: 1, showParticles: true });
+    source.addEffect("speed", KYUUBI_DURATION, { amplifier: 1, showParticles: true });
+    source.addEffect("fire_resistance", KYUUBI_DURATION, { amplifier: 0, showParticles: false });
+    source.addEffect("regeneration", KYUUBI_DURATION, { amplifier: 0, showParticles: true });
+    kyuubiActive.set(source.id, system.currentTick + KYUUBI_DURATION);
+    spawnBurst(
+      source.dimension,
+      { x: source.location.x, y: source.location.y + 1, z: source.location.z },
+      "minecraft:basic_flame_particle",
+      40,
+      3
+    );
+    source.sendMessage("§6🦊 MODO KYUUBI! O chakra da Nove-Caudas envolve seu corpo (30s).");
+    addXp(source, 5);
+  },
+};
+
 const chakraPill = {
   onUse(eventData) {
     const { source } = eventData;
@@ -466,6 +601,7 @@ const NINJA_NAMES = [
 
 function openSenseiMenu(player, sensei) {
   const level = getLevel(player);
+  const rank = getRank(player);
   const tameable = sensei.getComponent("minecraft:tameable");
   const alreadyHired = tameable && tameable.tamedPlayer ? true : false;
 
@@ -473,16 +609,32 @@ function openSenseiMenu(player, sensei) {
     .title("§6🍥 Mestre Ninja")
     .body(
       "§7O Mestre te observa com atenção...\n\n" +
-        `§fNível: §6${level}\n` +
+        `§fRank: ${rank.color}${rank.name}§r §7· Nível §f${level}\n` +
         `§fChakra: §b${getChakra(player)}/${maxChakra(level)}\n` +
         `§fXP: §e${getXp(player)}/${xpToNext(level)}\n` +
         `§fEsmeraldas: §e${countItem(player, "minecraft:emerald")}\n\n` +
         "§7O que deseja, jovem ninja?"
     )
     .button("§6🎓 Treinar Jutsu\n§7§o-30 chakra · +25 XP")
-    .button("§a💚 Curar Ferimentos\n§7§oDe graça!")
-    .button(alreadyHired ? "§7(Companheiro contratado)" : "§d🤝 Contratar Ninja\n§7§oPreço aleatório")
-    .button("§eℹ️ Sobre o nível e chakra");
+    .button("§a💚 Curar Ferimentos\n§7§oDe graça!");
+
+  // Índices dinâmicos: com companheiro contratado aparecem
+  // opções de cuidar/dispensar; sem companheiro, contratar.
+  let hireIdx = -1;
+  let healCompanionIdx = -1;
+  let dismissIdx = -1;
+  let nextIdx = 2;
+  if (alreadyHired) {
+    healCompanionIdx = nextIdx++;
+    dismissIdx = nextIdx++;
+    form.button("§a💚 Curar Companheiro\n§7§oCuide do seu parceiro");
+    form.button("§c💨 Dispensar Companheiro\n§7§oEle seguirá seu caminho");
+  } else {
+    hireIdx = nextIdx++;
+    form.button("§d🤝 Contratar Ninja\n§7§oPreço aleatório");
+  }
+  const infoIdx = nextIdx++;
+  form.button("§eℹ️ Sobre o nível, rank e chakra");
 
   form.show(player).then((response) => {
     if (response.canceled) return;
@@ -497,18 +649,23 @@ function openSenseiMenu(player, sensei) {
       const hunger = player.getComponent("minecraft:player_hunger");
       if (hunger) hunger.value = 20;
       player.sendMessage("§a[Sensei]§r Você foi curado. Vá com tudo!");
-    } else if (response.selection === 2) {
-      if (alreadyHired) {
-        player.sendMessage("§7[Sensei]§r Este ninja já é seu companheiro!");
-      } else {
-        hireNinja(player, sensei);
-      }
-    } else {
+    } else if (response.selection === hireIdx) {
+      hireNinja(player, sensei);
+    } else if (response.selection === healCompanionIdx) {
+      const health = sensei.getComponent("minecraft:health");
+      if (health) health.setCurrentValue(health.effectiveMax);
+      player.sendMessage("§a[Sensei]§r Seu companheiro foi totalmente curado!");
+    } else if (response.selection === dismissIdx) {
+      spawnBurst(sensei.dimension, sensei.location, "minecraft:basic_smoke_particle", 18, 1.5);
+      player.sendMessage("§7[Sensei]§r Companheiro dispensado. Ele parte em uma nova missão...");
+      sensei.remove();
+    } else if (response.selection === infoIdx) {
       player.sendMessage(
         "§e[Sensei]§r Derrote inimigos e use jutsus para ganhar XP. " +
-          "Ao subir de nível seu chakra máximo aumenta, jutsus ficam mais fortes " +
-          "e habilidades novas são desbloqueadas (Sharingan: nível 2, Clone: 3, Byakugan: 4, Rasenshuriken: 5).\n" +
-          "§7Custos de chakra: Kunai §b4§7 · Shuriken §b6§7 · Rasengan §b30§7 · Chidori §b40§7."
+          "Seu rank sobe com o nível: §fGenin§r → §aChunin (5)§r → §bJonin (10)§r → §dANBU (15)§r → §6Kage (20)§r. " +
+          "Ao subir, o chakra máximo aumenta e jutsus ficam mais fortes. " +
+          "Habilidades desbloqueáveis: Sharingan (2), Doton (2), Clone (3), Byakugan (4), Rasenshuriken (5), Raikiri (6), Kyuubi (7).\n" +
+          "§7Custos de chakra: Kunai §b4§7 · Suiton §b15§7 · Doton §b20§7 · Katon §b25§7 · Rasengan §b30§7 · Chidori §b40§7 · Raikiri §b55§7 · Kyuubi §b75§7."
       );
     }
   });
@@ -557,12 +714,16 @@ const SHOP_WEAPONS = [
 ];
 
 const SHOP_JUTSUS = [
+  { name: "§fSuiton: Jato de Água", item: "naruto:suiton", count: 1, price: 5 },
   { name: "§fKaton: Bola de Fogo", item: "naruto:katon", count: 1, price: 6 },
+  { name: "§fDoton: Muralha de Pedra", item: "naruto:doton", count: 1, price: 6 },
   { name: "§fRasengan", item: "naruto:rasengan", count: 1, price: 8 },
   { name: "§fChidori", item: "naruto:chidori", count: 1, price: 10 },
   { name: "§fSharingan", item: "naruto:sharingan", count: 1, price: 10 },
   { name: "§fClone das Sombras", item: "naruto:kage_bunshin", count: 1, price: 12 },
+  { name: "§fRaikiri", item: "naruto:raikiri", count: 1, price: 14 },
   { name: "§fByakugan", item: "naruto:byakugan", count: 1, price: 14 },
+  { name: "§fModo Kyuubi", item: "naruto:kyuubi", count: 1, price: 18 },
   { name: "§fRasenshuriken", item: "naruto:rasenshuriken", count: 1, price: 20 },
 ];
 
@@ -706,6 +867,12 @@ world.afterEvents.playerSpawn.subscribe((event) => {
   for (let i = 0; i < amount; i++) {
     giveItem(player, options[i]);
   }
+  // 25% de chance de nascer com um pergaminho de habilidade aleatório
+  if (Math.random() < 0.25) {
+    const scrolls = ["naruto:katon", "naruto:suiton"];
+    giveItem(player, new ItemStack(scrolls[Math.floor(Math.random() * scrolls.length)], 1));
+    player.sendMessage("§d📜 Sorte! Você nasceu com um pergaminho de habilidade raro.");
+  }
   player.sendMessage("§6🍥 Bem-vindo, ninja! Você recebeu um kit inicial aleatório. Boa sorte!");
 });
 
@@ -738,6 +905,10 @@ world.beforeEvents.worldInitialize.subscribe((initEvent) => {
   registry.registerCustomComponent("naruto:kage_bunshin", kageBunshin);
   registry.registerCustomComponent("naruto:sharingan", sharingan);
   registry.registerCustomComponent("naruto:byakugan", byakugan);
+  registry.registerCustomComponent("naruto:suiton", suiton);
+  registry.registerCustomComponent("naruto:doton", doton);
+  registry.registerCustomComponent("naruto:raikiri", raikiri);
+  registry.registerCustomComponent("naruto:kyuubi", kyuubi);
   registry.registerCustomComponent("naruto:chakra_pill", chakraPill);
   registry.registerCustomComponent("naruto:training_scroll", trainingScroll);
 });
@@ -746,6 +917,21 @@ world.beforeEvents.worldInitialize.subscribe((initEvent) => {
 // o HUD (que toca o mundo) só inicia depois do worldLoad.
 world.afterEvents.worldLoad.subscribe(() => {
   system.runInterval(() => {
+    const now = system.currentTick;
+    // Partículas do Modo Kyuubi enquanto ativo
+    for (const [id, expiry] of kyuubiActive) {
+      const p = world.getEntity(id);
+      if (!p || !p.isValid() || now >= expiry) {
+        kyuubiActive.delete(id);
+        continue;
+      }
+      const loc = p.location;
+      p.dimension.spawnParticle("minecraft:basic_flame_particle", {
+        x: loc.x + (Math.random() - 0.5) * 1.4,
+        y: loc.y + 0.6 + Math.random() * 1.6,
+        z: loc.z + (Math.random() - 0.5) * 1.4,
+      });
+    }
     for (const player of world.getAllPlayers()) {
       const level = getLevel(player);
       const max = maxChakra(level);
@@ -753,13 +939,14 @@ world.afterEvents.worldLoad.subscribe(() => {
       if (chakra < max) {
         player.setDynamicProperty(CHAKRA_KEY, Math.min(max, chakra + 3));
       }
+      const rank = getRank(player);
       const xp = getXp(player);
       const needed = xpToNext(level);
       const ratio = Math.max(0, Math.min(1, xp / needed));
       const filled = Math.round(ratio * 10);
       const bar = "█".repeat(filled) + "░".repeat(10 - filled);
       player.onScreenDisplay.setActionBar(
-        `§6🍥 Nível ${level} §7[§f${bar}§7] §8${xp}/${needed} §7| §b✧ ${getChakra(player)}/${max}`
+        `§6🍥 ${rank.color}${rank.name}§r §7· Nível §f${level} §7[§f${bar}§7] §8${xp}/${needed} §7| §b✧ ${getChakra(player)}/${max}`
       );
     }
   }, 20);

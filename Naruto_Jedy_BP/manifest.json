@@ -4,7 +4,7 @@
     "name": "Naruto Jedy Addon",
     "description": "Jutsus, armas e equipamentos do mundo ninja! Rasengan, Chidori, Kunai, Shuriken, Akatsuki e mais.",
     "uuid": "6f2c1e4a-9b3d-4f1e-8a7c-2d5b9e1f3a11",
-    "version": [1, 3, 0],
+    "version": [1, 6, 0],
     "min_engine_version": [1, 26, 33]
   },
   "modules": [
@@ -24,16 +24,15 @@
   "dependencies": [
     {
       "module_name": "@minecraft/server",
-      "version": "2.6.0"
+      "version": "2.8.0"
     },
     {
       "module_name": "@minecraft/server-ui",
-      "version": "2.0.0"
+      "version": "2.1.0"
     },
     {
       "uuid": "a1b2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
       "version": [1, 0, 0]
     }
-  ],
-  "capabilities": ["script_eval"]
+  ]
 }

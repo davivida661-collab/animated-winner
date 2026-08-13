@@ -22,6 +22,10 @@ Addon **fan-made** para **Minecraft Bedrock (MCPE / Windows / Consoles)** com ar
 | 💊 **Pílula de Chakra** | Restaura **+40 de chakra** na hora. |
 | 💣 **Kunai Explosiva** | Arremessável: **explode no impacto** (raio 3, sem destruir blocos). |
 | 🌀 **Fuma Shuriken** | Shuriken gigante, 8 de dano. |
+| 💧 **Suiton: Jato de Água** | Projétil de água (5 de dano + repulsão). Custa 15 de chakra. |
+| 🪨 **Doton: Muralha de Pedra** | Defesa: Resistência II + Absorção II (20s) e empurra inimigos. Custa 20 de chakra. |
+| ⚡ **Raikiri** | Chidori aprimorado: raio em linha (dano escala com o nível). Nível 6+, 55 de chakra. |
+| 🦊 **Modo Kyuubi** | Transformação de 30s: Força II, Velocidade II, Regeneração e Resistência ao Fogo + partículas. Nível 7+, 75 de chakra. |
 
 ### ⚔️ Habilidades (jutsus e doujutsus)
 
@@ -32,6 +36,8 @@ Addon **fan-made** para **Minecraft Bedrock (MCPE / Windows / Consoles)** com ar
 | 💨 **Clone das Sombras** | 3 | 45 | Invoca **2 clones** que lutam ao seu lado por 30s |
 | 👁️ **Byakugan** | 4 | 25 | Faz **todos os mobs ao redor (30 blocos) brilharem** através das paredes |
 | 🌀 **Futon: Rasenshuriken** | 5 | 50 | Onda de choque gigante (16 de dano, raio 8) |
+| ⚡ **Raikiri** | 6 | 55 | Raio em linha de visão (10 blocos), dano escala com o nível |
+| 🦊 **Modo Kyuubi** | 7 | 75 | Transformação de 30s com Força II, Regeneração e partículas de fogo |
 
 ### 🧙 NPCs
 
@@ -40,20 +46,22 @@ Addon **fan-made** para **Minecraft Bedrock (MCPE / Windows / Consoles)** com ar
 | 🍥 **Mestre Ninja** (`naruto:ninja_sensei`) | NPC amigável com **menu interativo**: Treinar Jutsu (-30 chakra → +25 XP), Curar Ferimentos (grátis), **Contratar Ninja** (companheiro aleatório) e dicas. Clique com a **mão vazia**. |
 | 💰 **Mercador Ninja** (`naruto:shopkeeper`) | NPC de **loja**: compre armas, jutsus e pergaminhos com **esmeraldas**, e venda recursos (ferro, lápis-lazúli, diamantes...). Invulnerável. |
 | 🥷 **Ninja Renegado** (`naruto:rogue_ninja`) | Inimigo hostil (ataque corpo a corpo) que derruba kunais, shurikens e ramen — e dá **30 XP** ao ser derrotado. |
+| 🏹 **Ninja Arqueiro** (`naruto:bow_ninja`) | Inimigo hostil de **ataque à distância** (flechas) que derruba flechas, shurikens e ramen — dá **25 XP** ao ser derrotado. |
 
 ### 🌍 Spawn natural e contratação
 
 - **Mestre Ninja** e **Mercador Ninja** spawnam sozinhos **de dia** em biomas de planície/floresta/deserto/savana.
-- **Ninjas Renegados** spawnam **à noite** em qualquer bioma (como monstros normais).
+- **Ninjas Renegados** e **Ninjas Arqueiros** spawnam **à noite** em qualquer bioma (como monstros normais).
 - **Contratação aleatória**: fale com um Mestre Ninja e escolha *Contratar*. O **preço (10–30 esmeraldas) e o nome são aleatórios** a cada ninja. Depois de contratado ele vira seu **companheiro**: segue você e **luta ao seu lado** contra monstros.
 - Ao entrar no mundo pela primeira vez você ganha um **kit inicial aleatório** (1–2 itens: kunais, shurikens e/ou ramen).
 
 ### 📈 Sistema de nível e chakra
 
-- **XP**: ganhe ao matar criaturas (zumbis 8, creepers 15, bruxas 20, warden 80, renegados 30...) e ao usar jutsus.
+- **XP**: ganhe ao matar criaturas (zumbis 8, creepers 15, bruxas 20, warden 80, renegados 30, arqueiros 25...) e ao usar jutsus.
 - **Nível**: suba de nível acumulando XP (cada nível exige mais). Ao subir, você ganha **Absorção + Velocidade** temporárias, som de level-up e seu **chakra máximo aumenta** (100 + 10 por nível).
+- **Ranks Ninja**: seu rank sobe com o nível — **Genin (1)** → **Chunin (5)** → **Jonin (10)** → **ANBU (15)** → **Kage (20)**. O rank aparece no HUD e nos menus.
 - **Chakra**: regenera com o tempo; jutsus e armas gastam chakra. Sem chakra, o jutsu não ativa.
-- **HUD**: barra de XP + chakra sempre visível na action bar.
+- **HUD**: rank + barra de XP + chakra sempre visíveis na action bar.
 
 ---
 
@@ -98,6 +106,11 @@ tools/generate_textures.mjs  ← script que gera as texturas (node tools/generat
 /give @s naruto:kage_bunshin
 /give @s naruto:byakugan
 /give @s naruto:rasenshuriken
+/give @s naruto:suiton
+/give @s naruto:doton
+/give @s naruto:raikiri
+/give @s naruto:kyuubi
+/give @s naruto:bow_ninja_spawn_egg
 ```
 
 Todos os itens também têm **receita na mesa de criação** (ferro + graveto para kunais, diamante para a Kusanagi, lápis-lazúli/pó de blaze para os jutsus, etc.).
@@ -115,7 +128,7 @@ Todos os itens também têm **receita na mesa de criação** (ferro + graveto pa
 
 ## 🔧 Requisitos
 
-- Minecraft Bedrock **1.26.33 ou superior** (Script API 2.x + server-ui 2.x).
+- Minecraft Bedrock **1.26.33 ou superior** (Script API **2.8.0** + server-ui **2.1.0**).
 - Ative **"Habilidades de Criador/Teste"** no mundo se o script não carregar (em alguns dispositivos é chamado de "Experimental").
 
 ---
@@ -131,7 +144,22 @@ Todos os itens também têm **receita na mesa de criação** (ferro + graveto pa
 
 ---
 
-## 📜 Changelog v1.4.0
+## 📜 Changelog v1.6.0
+
+- **Sistema de Ranks Ninja**: Genin → Chunin (5) → Jonin (10) → ANBU (15) → Kage (20). O rank aparece no HUD, no menu do Mestre Ninja e no aviso de level-up.
+- **4 novos jutsus com texturas**: Suiton (Jato de Água, nível 1), Doton (Muralha de Pedra, nível 2), Raikiri (nível 6) e **Modo Kyuubi** (nível 7) — transformação de 30s com partículas de fogo seguindo o jogador.
+- **Novo NPC hostil**: Ninja Arqueiro, ataca à distância com flechas, spawna à noite e derruba flechas/shurikens (25 XP).
+- **Companheiros**: opções de **Curar** e **Dispensar** o companheiro no menu do Mestre Ninja.
+- **Kit inicial aleatório**: 25% de chance de nascer com um pergaminho de habilidade raro (Katon ou Suiton).
+- Loja com 4 produtos novos (Suiton, Doton, Raikiri e Modo Kyuubi) e 4 novas receitas de crafting.
+
+### v1.5.0
+
+- **Atualização para as APIs mais recentes**: `@minecraft/server` **2.8.0** e `@minecraft/server-ui` **2.1.0** (versões estáveis da linha 1.26.30+)
+- Removida a capability desnecessária `script_eval` do manifest (não usamos `eval`)
+- Compatível com Minecraft 1.26.33 e versões posteriores
+
+### v1.4.0
 
 - **8 itens novos com texturas**: Pílula de Chakra, Kunai Explosiva (explode no impacto), Fuma Shuriken, Katon, Rasenshuriken, Clone das Sombras, Sharingan e Byakugan
 - **Sistema de habilidades desbloqueáveis por nível** (Sharingan: 2, Clone: 3, Byakugan: 4, Rasenshuriken: 5)
